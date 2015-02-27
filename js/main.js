@@ -53,7 +53,7 @@ $(function() {
   
   /* liste les repertoires img_xxx dans img pour afficher le menu */
   $.ajax({
-		url: siteinfo.list_img+"/"+img_sha,
+		url: siteinfo.list_img+"/"+siteinfo.img_sha,
 		success: function(data){
 			
 			// data.tree array des items du sha dans l'API Github
@@ -113,6 +113,7 @@ $(function() {
    function displayMenu(){
 	var sha = window.location.href.split('#!') ;
 	sha = sha.pop();
+	var basenameImg = sha.pop();
 	
 		  $.ajax({
 			url: siteinfo.list_img+"/"+sha,
