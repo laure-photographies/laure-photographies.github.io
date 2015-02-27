@@ -3,7 +3,7 @@ $(function() {
 	
     var siteinfo = { 
         'url':'http://laure-photographies.github.io',
-		'list_img':'https://api.github.com/repos/laure-photographies/laure-photographies.github.io/branches',
+		'list_img':'https://api.github.com/repos/laure-photographies/laure-photographies.github.io/git/trees/7caaa36e9f3323ebc90f5eb320afb3a657ed5772',
         //'baseurl':'https://googledrive.com',
 		'prefix':'img_'
     };
