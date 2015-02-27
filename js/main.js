@@ -56,12 +56,11 @@ $(function() {
 		success: function(data){
 			
 			$.each(data.tree,function(){
-				console.log($(this));
+
 				console.log(this);
-				console.log($(this).path);
 				console.log(this.path);
 				
-				var atext = $(this).path ;
+				var atext = this.path ;
 				
 				if(atext.match(siteinfo.prefix)){
 					$('#menu-panel ul').append(
