@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Laure Photographies</title>
+        <meta name="description" content="Laure Photographies">
+        <meta name="viewport" content="width=device-width">
+		
+		<link rel="stylesheet" href="js/vendor/plugins/jquery-ui-mobile/jquery.mobile-1.4.2.min.css">
+		<link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+        <div id="wrapper" data-role="page" data-theme="b">
+			<div id="menu-panel-btn"><a href="#menu-panel" title="menu"><span class="ui-link ui-btn ui-btn-b ui-icon-grid ui-btn-icon-notext"></span></a></div>
+			<div id="menu-panel" data-role="panel" data-display="overlay" data-theme="b">
+				<ul data-role="listview">
+					<li data-icon="delete"><a href="#" data-rel="close">Fermer le menu</a></li>
+					<li data-icon="home" class="menu-panel-item"><a class="rel-home" href="#" title="Accueil">Accueil</a></li>
+				</ul>
+			</div>
+            <div id="header">
+                <h1><span class="rel-home">Laure Photographies</span></h1>
+            </div>
+            <div id="cadre">
+				<div id="container">
+					<div id="carousel-main"> 
+						<div class="item">
+							<img src="img/home.jpg" alt="home.jpg" />
+						</div>
+					</div> 
+				</div> <!-- #container -->
+            </div> <!-- #cadre -->
+			<div id="menu-panel-btn-img"><a href="#menu-panel-img" title="Images"><span class="ui-link ui-btn ui-btn-b ui-icon-bars ui-btn-icon-notext"></span></a></div>
+			<div id="menu-panel-img"  data-role="panel" data-display="overlay" data-theme="b" data-position='right'>
+				<ul data-role="listview">
+				</ul>
+			</div>
+        </div> <!-- #wrapper -->
+        
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-2.1.0.min.js"><\/script>')</script>
+		<script src="js/vendor/plugins/jquery-ui-mobile/jquery.mobile-1.4.2.min.js"></script>
+        <script src="js/main.js"></script>
+
+        <script>
+            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src='//www.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
+    </body>
+</html>
