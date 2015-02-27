@@ -3,7 +3,8 @@ $(function() {
 	
     var siteinfo = { 
         'url':'http://laure-photographies.github.io',
-		'list_img':'https://api.github.com/repos/laure-photographies/laure-photographies.github.io/git/trees/e3027ebe14274e5051299694b7d2a474a93c9e7b',
+		'list_img':'https://api.github.com/repos/laure-photographies/laure-photographies.github.io/git/trees',
+		'img_sha':'e3027ebe14274e5051299694b7d2a474a93c9e7b',
         //'baseurl':'https://googledrive.com',
 		'prefix':'img_'
     };
@@ -52,13 +53,11 @@ $(function() {
   
   /* liste les repertoires img_xxx dans img pour afficher le menu */
   $.ajax({
-		url: siteinfo.list_img,
+		url: siteinfo.list_img+"/"+img_sha,
 		success: function(data){
 			
+			// data.tree array des items du sha dans l'API Github
 			$.each(data.tree,function(){
-
-				console.log(this);
-				console.log(this.path);
 				
 				var atext = this.path ;
 				
@@ -67,7 +66,9 @@ $(function() {
 					'\
 					<li class="menu-panel-item menu-panel-item-img">\
 						<a class="load-menu" href="#!'+
-						atext.replace(siteinfo.prefix,'')+'" title="'+atext.replace(siteinfo.prefix,'').replace(/%20/g,' ')+'">'+
+						atext.replace(siteinfo.prefix,'')+
+						'#!'+this.sha+
+						'" title="'+atext.replace(siteinfo.prefix,'').replace(/%20/g,' ')+'">'+
 						atext.replace(siteinfo.prefix,'').replace(/%20/g,' ')+'</a></li>'
 					);
 				}
@@ -110,14 +111,13 @@ $(function() {
    });
    
    function displayMenu(){
-	var basenameImgFolder = window.location.href.split('#!') ;
-	basenameImgFolder = basenameImgFolder.pop();
-
-		var	urlmenu = siteinfo.url + "/img/" + siteinfo.prefix + basenameImgFolder;
-				
+	var sha = window.location.href.split('#!') ;
+	sha = sha.pop();
+	
 		  $.ajax({
-			url: urlmenu,
+			url: siteinfo.list_img+"/"+sha,
 			success: function(data){
+				console.log(data);
 				$('#menu-panel-img ul .item').remove();
 				var i = 1 ;
 				$(data).find("a[href*='.jpg']").each(function(){
