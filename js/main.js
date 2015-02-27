@@ -54,13 +54,15 @@ $(function() {
   $.ajax({
 		url: siteinfo.list_img,
 		success: function(data){
-			console.log(data);
-			$(data).find(".files .content a").each(function(){
-				//var atext = $(this).a.replace('/','');
-				var atext = $(this).attr('href');
-				atext = atext.split('/');
-				atext = atext.pop();
-
+			
+			$.each(data.tree,function(){
+				console.log($(this));
+				console.log(this);
+				console.log($(this).path);
+				console.log(this.path);
+				
+				var atext = $(this).path ;
+				
 				if(atext.match(siteinfo.prefix)){
 					$('#menu-panel ul').append(
 					'\
