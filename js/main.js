@@ -3,7 +3,7 @@ $(function() {
 	
     var siteinfo = { 
         'url':'http://laure-photographies.github.io',
-		'list_img':'https://github.com/laure-photographies/laure-photographies.github.io/tree/master/img',
+		'list_img':'https://api.github.com/repos/laure-photographies/laure-photographies.github.io/branches',
         //'baseurl':'https://googledrive.com',
 		'prefix':'img_'
     };
@@ -54,6 +54,7 @@ $(function() {
   $.ajax({
 		url: siteinfo.list_img,
 		success: function(data){
+			console.log(data);
 			$(data).find(".files .content a").each(function(){
 				//var atext = $(this).a.replace('/','');
 				var atext = $(this).attr('href');
