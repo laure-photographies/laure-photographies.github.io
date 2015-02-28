@@ -3,8 +3,7 @@ $(function() {
 	
     var siteinfo = { 
         'url':'http://laure-photographies.github.io',
-		'list_img':'https://api.github.com/repos/laure-photographies/laure-photographies.github.io/git/trees',
-		'img_sha':'e3027ebe14274e5051299694b7d2a474a93c9e7b',
+		'github_repo':'https://api.github.com/repos/laure-photographies/laure-photographies.github.io',
         //'baseurl':'https://googledrive.com',
 		'prefix':'img_'
     };
@@ -39,11 +38,6 @@ $(function() {
 	});
 	$(window).on('load',function(){
 	 	resize();
-	 	var basenameImgFolder = window.location.href.split('#!') ;
-		basenameImgFolder = basenameImgFolder.pop();
-		if(basenameImgFolder.length > 0){
-			displayMenu();
-		}
 	});
   
     /*
@@ -52,10 +46,19 @@ $(function() {
   
   
   /* liste les repertoires img_xxx dans img pour afficher le menu */
+  var 
   $.ajax({
-		url: siteinfo.list_img+"/"+siteinfo.img_sha,
+    url: siteinfo.github_repo+"/branches",
+    success: function(data){
+      listImg(data.commit.sha) ;
+    }
+  });
+  function listImg(img_sha){
+  $.ajax({
+		url: siteinfo.github_repo+"/git/trees/"+siteinfo.img_sha,
 		success: function(data){
-			
+			console.log(data);return;
+      
 			// data.tree array des items du sha dans l'API Github
 			$.each(data.tree,function(){
 				
@@ -79,6 +82,7 @@ $(function() {
 			$('#menu-panel ul').listview().listview('refresh');
 		}
 	});
+  } // Fin : listImg sur Github
   
    // pannel image droite
    $(document).on('click','#menu-panel-img .item',function(e){
