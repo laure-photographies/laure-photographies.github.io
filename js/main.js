@@ -2,20 +2,12 @@ $(function() {
 	/* */
 	
     var siteinfo = { 
-        'url':'http://laure-photographies.github.io',
-		'github_repo':'https://api.github.com/repos/laure-photographies/laure-photographies.github.io',
-        //'baseurl':'https://googledrive.com',
-		'prefix':'img_'
+      'url':'http://laure-photographies.github.io',
+      'github_repo':'https://api.github.com/repos/laure-photographies/laure-photographies.github.io',
+      'prefix':'img_',
+      'hash_sep':'#!'
     };
-	/*	*/
-	/*  
-	var siteinfo = { 
-		'url':'http://localhost',
-		'baseurl': 'http://locahost',
-		'prefix':'img_'
-	};
-	/* */	
-	
+
 	
   function resize(){
     if(window.innerWidth < 768){
@@ -49,14 +41,28 @@ $(function() {
   $.ajax({
     url: siteinfo.github_repo+"/branches",
     success: function(data){
-      listImg(data.commit.sha) ;
+      // récupération du dernier sha last commit du repos
+      getShaImgAndListImg(data[0].commit.sha) ;
     }
   });
+  function getShaImgAndListImg(github_repo_sha){
+    $.ajax({
+      url: siteinfo.github_repo+"/git/trees/"+github_repo_sha,
+      success: function(data){
+      
+        // Récupération du sha du dossier img et listImg
+        $.each(data.tree,function(){
+          if( this.path == "img"){
+            listImg(this.sha);
+          }
+        });
+      }
+    });
+  }
   function listImg(img_sha){
   $.ajax({
-		url: siteinfo.github_repo+"/git/trees/"+siteinfo.img_sha,
+		url: siteinfo.github_repo+"/git/trees/"+img_sha,
 		success: function(data){
-			console.log(data);return;
       
 			// data.tree array des items du sha dans l'API Github
 			$.each(data.tree,function(){
@@ -67,9 +73,9 @@ $(function() {
 					$('#menu-panel ul').append(
 					'\
 					<li class="menu-panel-item menu-panel-item-img">\
-						<a class="load-menu" href="#!'+
-						atext.replace(siteinfo.prefix,'')+
-						'#!'+this.sha+
+						<a class="load-menu" href="'+ siteinfo.hash_sep +
+						atext.replace(siteinfo.prefix,'')+ siteinfo.hash_sep +
+						this.sha+
 						'" title="'+atext.replace(siteinfo.prefix,'').replace(/%20/g,' ')+'">'+
 						atext.replace(siteinfo.prefix,'').replace(/%20/g,' ')+'</a></li>'
 					);
@@ -82,73 +88,83 @@ $(function() {
 		}
 	});
   } // Fin : listImg sur Github
+  // Fin : liste des répertoires img
   
-   // pannel image droite
-   $(document).on('click','#menu-panel-img .item',function(e){
-		e.preventDefault();
-		var imagePanel = $(this).find("img") ;
-		var attrSrcNew = imagePanel.attr('src'), attrAltNew = imagePanel.attr('alt'), attrIdNew = imagePanel.attr('id') ;
-		attrIdNew = attrIdNew.replace('item-','img-');
-		$("#carousel-main .item img").fadeOut(function(){
-			$(this).attr('src',attrSrcNew).attr('alt',attrAltNew).attr('id',attrIdNew) ;
-			$("#carousel-main .item img").fadeIn();
-		});
-   });
+ // pannel image droite
+ $(document).on('click','#menu-panel-img .item',function(e){
+  e.preventDefault();
+  var imagePanel = $(this).find("img") ;
+  var attrSrcNew = imagePanel.attr('src'), attrAltNew = imagePanel.attr('alt'), attrIdNew = imagePanel.attr('id') ;
+  attrIdNew = attrIdNew.replace('item-','img-');
+  $("#carousel-main .item img").fadeOut(function(){
+    $(this).attr('src',attrSrcNew).attr('alt',attrAltNew).attr('id',attrIdNew) ;
+    $("#carousel-main .item img").fadeIn();
+  });
+ });
    
    // pannel menu gauche
    $(document).on('click','.load-menu',function(e){
 		
 		e.stopPropagation();
 		e.preventDefault();
-		
-		//history.pushState({key:'value'},'titre',e.currentTarget.href);
-		var basenameImgFolder = e.currentTarget.href.split('#!') ;
-		basenameImgFolder = basenameImgFolder.pop();
-		document.location.hash = "!" + basenameImgFolder;
 
+    var hashTab = e.currentTarget.href.split(siteinfo.hash_sep) ;
+    var sha = hashTab.pop();
+    var basenameImg = hashTab.pop();
+    
+		document.location.hash =  siteinfo.hash_sep + basenameImg +
+                              siteinfo.hash_sep + sha ;
+  }); // end on .menu-img-item event
+   
+  $(window).on('hashchange',function(){
+    displayMenu() ;
+  });
+   
+  function displayMenu(){
+    var hashTab = window.location.href.split(siteinfo.hash_sep) ;
+    var sha = hashTab.pop();
+    var basenameImg = hashTab.pop();
+    
+    $.ajax({
+    url: siteinfo.github_repo+"/git/trees/"+sha,
+    success: function(data){
 
-   }); // end on .menu-img-item event
-   
-   $(window).on('hashchange',function(){
-		displayMenu() ;
-   });
-   
-   function displayMenu(){
-	var sha = window.location.href.split('#!') ;
-	sha = sha.pop();
-	var basenameImg = sha.pop();
-	
-		  $.ajax({
-			url: siteinfo.list_img+"/"+sha,
-			success: function(data){
-				console.log(data);
-				$('#menu-panel-img ul .item').remove();
-				var i = 1 ;
-				$(data).find("a[href*='.jpg']").each(function(){
-					var basenameImg = $(this).attr('href').split('/') ;
-					basenameImg = basenameImg.pop();
-					if( i === 1 ){
-							$("#carousel-main .item img").fadeOut(function(){
-								$(this).attr('src',urlmenu +"/"+ basenameImg).attr('alt',$(this).attr('href')).attr('id','img-1') ;
-								$("#carousel-main .item img").fadeIn();
-							});
-							if(! $("#next").length > 0 ){							
-								$('#carousel-main').append('\
-									<span id="next" role="next" class="ui-link ui-btn ui-btn-b ui-icon-arrow-r ui-btn-icon-notext next"></span>\
-									<span id="prev" role="prev" class="ui-link ui-btn ui-btn-b ui-icon-arrow-l ui-btn-icon-notext prev"></span>\
-								');
-							}
-					}
-					$('#menu-panel-img ul').append('\
-							<li class="item">\
-								<a href="#item-'+ i +'"><img id="item-'+ i +'" src="'+ urlmenu +"/"+ basenameImg +'" alt="'+ $(this).attr('href') +'" /></a>\
-							</li>');
-					i++;
-				}) ;
-			}
-		  });
-		  $('#menu-panel').panel( 'close' ) ;
-   }
+      $('#menu-panel-img ul .item').remove();
+      
+      var i = 1 ;
+      
+      // Pour chaque image on récupère le path (son nom)
+      $.each(data.tree,function(){
+        var hrefImg = siteinfo.url+"/img/"+
+                      siteinfo.prefix+basenameImg+
+                      "/"+this.path ;
+        
+        if( i === 1 ){
+            $("#carousel-main .item img").fadeOut(function(){
+              $(this).attr('src',hrefImg).attr('alt',$(this).attr('href')).attr('id','img-1') ;
+              $("#carousel-main .item img").fadeIn();
+            });
+            if(! $("#next").length > 0 ){							
+              $('#carousel-main').append('\
+                <span id="next" role="next" class="ui-link ui-btn ui-btn-b ui-icon-arrow-r ui-btn-icon-notext next"></span>\
+                <span id="prev" role="prev" class="ui-link ui-btn ui-btn-b ui-icon-arrow-l ui-btn-icon-notext prev"></span>\
+              ');
+            }
+        }
+        
+        $('#menu-panel-img ul').append('\
+            <li class="item">\
+              <a href="#item-'+ i +'"><img id="item-'+ i +'" src="'+ hrefImg +'" alt="'+ this.path +'" /></a>\
+            </li>');
+        i++;
+        
+      }) ; // Fin du each
+    }
+    });
+    
+    
+    $('#menu-panel').panel( 'close' ) ;
+  } // Fin : displayMenu
    
 	$(document).on('click','.rel-home',function(e){
 		e.preventDefault();
