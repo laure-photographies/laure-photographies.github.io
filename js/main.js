@@ -46,7 +46,6 @@ $(function() {
   
   
   /* liste les repertoires img_xxx dans img pour afficher le menu */
-  var 
   $.ajax({
     url: siteinfo.github_repo+"/branches",
     success: function(data){
