@@ -30,6 +30,7 @@ $(function() {
 	});
 	$(window).on('load',function(){
 	 	resize();
+    displayMenu();
 	});
   
     /*
@@ -114,6 +115,7 @@ $(function() {
     
 		document.location.hash =  siteinfo.hash_sep + basenameImg +
                               siteinfo.hash_sep + sha ;
+                              
   }); // end on .menu-img-item event
    
   $(window).on('hashchange',function(){
