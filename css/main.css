@@ -81,6 +81,7 @@ body{
 #header{
     text-align:center;
 }
+#header h1{color:black;}
 #wrapper{
 	background:none;
 }
