@@ -21,9 +21,6 @@ $(function() {
       }else if(typeof this.sha != "undefined"){
         $('#header').remove();
         displayMenu(this);
-      }else{
-        // TODO redirect to 404.html
-        document.location.href = siteinfo.url;  
       }
     }
     this.nav = function(direction){
@@ -130,6 +127,10 @@ $(function() {
 
       // "top arrow"
       case 38:
+        break;
+
+      // "bottom arrow"
+      case 40:
         break;
 
     }
