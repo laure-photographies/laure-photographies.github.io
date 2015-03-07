@@ -72,9 +72,9 @@ padding: 0 50px;
 font-weight:100;
 }
 body{
-		background-image:url('../img/background.png');
+		background-image:url('../img/home.png');
 		background-repeat:no-repeat;
-		background-position: bottom center;
+		background-position:center;
 		background-attachment:fixed;
 		background-size:contain;
 }
@@ -108,11 +108,9 @@ body{
    width:100%;height:auto;
    padding:3px;
    margin-bottom:3px;
-	background:url('../img/brushed_alu_16x16.png') repeat ;
 }
 #carousel-main .item img{
     /* padding:1px; */
-    background:url('../img/brushed_alu_16x16.png') repeat ;
     display: block;
     margin-left:auto;
     margin-right:auto;
