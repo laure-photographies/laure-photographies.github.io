@@ -110,7 +110,7 @@ $(function() {
   {
      var keyCode; 
     (typeof e.which != "undefined") ? keyCode = e.which : keyCode =  e.keyCode ;
-    console.log("keyCode : "+keyCode)
+
     switch( keyCode )
     {
       // "left arrow"
