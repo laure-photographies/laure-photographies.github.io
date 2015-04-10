@@ -102,7 +102,6 @@ $(function() {
     //clique droit
     if (e.which === 3) {
       e.preventDefault ;
-      $("#popupBasic").popup("open");
     }
   });
 
