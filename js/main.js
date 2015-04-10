@@ -101,9 +101,9 @@ $(function() {
   $(document).mousedown(function(e) {
     //clique droit
     if (e.which === 3) {
-      // do stuff
+      e.preventDefault ;
+      $("#popupBasic").open();
     }
-    console.log(e.which);
   });
 
   // listens for any navigation keypress activity
