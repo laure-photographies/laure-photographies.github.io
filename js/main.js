@@ -110,7 +110,7 @@ $(function() {
     if(e.originalEvent.wheelDelta /120 > 0) {
         var hash = new Hash(document.location.hash);
         hash.nav(1);
-    else{
+    }else{
         var hash = new Hash(document.location.hash);
         hash.nav(-1);
     }
