@@ -103,6 +103,7 @@ $(function() {
     if (e.which === 3) {
       // do stuff
     }
+    console.log(e.which);
   });
 
   // listens for any navigation keypress activity
