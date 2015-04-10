@@ -104,7 +104,18 @@ $(function() {
       e.preventDefault ;
     }
   });
-
+  
+  // mousewheel
+  $(document).on('mousewheel',function(e){
+    if(e.originalEvent.wheelDelta /120 > 0) {
+        var hash = new Hash(document.location.hash);
+        hash.nav(1);
+    else{
+        var hash = new Hash(document.location.hash);
+        hash.nav(-1);
+    }
+  });
+  
   // listens for any navigation keypress activity
   $(window).keydown(function(e)
   {
