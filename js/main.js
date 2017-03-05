@@ -234,7 +234,7 @@ $(function() {
       'background-repeat': 'no-repeat',
       'background-position': 'center',
       'background-attachment': 'fixed',
-      'background-size': 'contain'
+      'background-size': 'cover'
     });
   }
 
